@@ -84,6 +84,7 @@ output "server_ip" {
   value = hcloud_server.node1.ipv4_address
 }
 
+# Create Ansible inventory
 resource "local_file" "deploy_inventory" {
   content = <<EOF
 [servers]
