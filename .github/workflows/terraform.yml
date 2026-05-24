@@ -13,7 +13,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: Infrastructure
+        working-directory: Infraestructure
     env:
       hcloud_token: ${{ secrets.hcloud_token }}
       HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
