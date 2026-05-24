@@ -13,8 +13,6 @@
       shell: >
         tailscale up
         --auth-key={{ tailscale_auth_key }} 
-      args:
-        creates: /var/lib/tailscale/tailscaled.state
 
     - name: Configurar Doppler
       shell: doppler configure set token {{ doppler_token }}
