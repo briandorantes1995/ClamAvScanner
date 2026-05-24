@@ -39,5 +39,11 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        
+      - name: Cache Ansible Inventory
+          uses: actions/cache/save@v4
+          with:
+            path: Ansible/inventory.ini
+            key: ansible-inventory-cache-${{ github.sha }}  
 
   
