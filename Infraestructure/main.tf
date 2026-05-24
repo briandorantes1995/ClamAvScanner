@@ -33,6 +33,22 @@ provider "hcloud" {
   token = var.hcloud_token
 }
 
+provider "hcp" {
+  client_id     = var.hcp_client_id
+  client_secret = var.hcp_client_secret
+}
+
+# Recuerda declarar las variables correspondientes para que no te vuelva a pedir inputs:
+variable "hcp_client_id" {
+  type      = string
+  sensitive = true
+}
+
+variable "hcp_client_secret" {
+  type      = string
+  sensitive = true
+}
+
 data "hcloud_firewall" "fw"{
   name= "general"
 }
@@ -45,7 +61,6 @@ data "hcp_packer_artifact" "base" {
   bucket_name   = "BaseImage"
   channel_name  = "latest"
   platform      = "hetznercloud"
-  region        = ""
 }
 
 resource "hcloud_server" "node1" {

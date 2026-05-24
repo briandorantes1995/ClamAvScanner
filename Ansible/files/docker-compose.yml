@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   scanner:
-    image: ghcr.io/briandorantes1995/ClamAvScanner:latest
+    image: ghcr.io/briandorantes1995/clamavscanner:latest
     container_name: scanner
     restart: always
     depends_on:
