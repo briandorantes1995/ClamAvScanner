@@ -17,14 +17,6 @@
     - name: Configurar Doppler
       shell: doppler configure set token {{ doppler_token }}
       become_user: brian
-    
-    - name: Crear carpeta app
-      file:
-        path: /home/brian/app
-        state: directory
-        owner: brian
-        group: brian
-        mode: '0755'
         
     - name: Copiar Docker Compose
       copy:
@@ -48,9 +40,9 @@
         DOPPLER_TOKEN: "{{ doppler_token }}"
       shell: >
         doppler run --
-        docker-compose  pull && 
+        docker compose  pull && 
         doppler run --
-        docker-compose  up -d
+        docker compose  up -d
       args:
         chdir: /home/brian/app
   
