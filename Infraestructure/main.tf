@@ -99,7 +99,7 @@ output "server_ip" {
   value = hcloud_server.node1.ipv4_address
 }
 
-# Create Ansible inventory and Cached the file
+# Create Ansible inventory.ini and Cached the file
 resource "local_file" "deploy_inventory" {
   content = <<EOF
 [servers]
