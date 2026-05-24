@@ -93,6 +93,7 @@ resource "hcloud_server" "node1" {
     - /usr/local/bin/bootstrap.sh
   EOF
 }
+
 # Obtain Server IP
 output "server_ip" {
   value = hcloud_server.node1.ipv4_address
