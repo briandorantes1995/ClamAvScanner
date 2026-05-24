@@ -61,6 +61,7 @@ data "hcp_packer_artifact" "base" {
   bucket_name   = "BaseImage"
   channel_name  = "latest"
   platform      = "hetznercloud"
+  region        =  ""
 }
 
 resource "hcloud_server" "node1" {
