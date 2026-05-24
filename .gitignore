@@ -1,0 +1,24 @@
+.env
+.tfvars
+bin/
+obj/
+
+.vs/
+.idea/
+
+*.user
+*.suo
+keys/*
+!keys/*.pub
+
+# Terraform
+
+**/.terraform/*
+
+*.tfstate
+
+*.tfstate.*
+
+# Ansible inventory generado
+Ansible/inventory.ini
+Ansible/bootstrap_inventory.ini

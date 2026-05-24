@@ -1,0 +1,63 @@
+---
+- name: Configuracion inicial VM
+  hosts: servers
+  become: true
+  
+  tasks:     
+    - name: Actualizar paquetes
+      apt:
+        update_cache: yes
+        upgrade: safe
+        
+    - name: Unir VM a Tailscale
+      shell: >
+        tailscale up
+        --auth-key={{ tailscale_auth_key }} 
+      args:
+        creates: /var/lib/tailscale/tailscaled.state
+
+    - name: Configurar Doppler
+      shell: doppler configure set token {{ doppler_token }}
+      become_user: brian
+    
+    - name: Crear carpeta app
+      file:
+        path: /home/brian/app
+        state: directory
+        owner: brian
+        group: brian
+        mode: '0755'
+        
+    - name: Copiar Docker Compose
+      copy:
+        src: files/docker-compose.yaml
+        dest: /home/brian/app/docker-compose.yaml
+        owner: brian
+        group: brian
+        mode: '0644'
+
+    - name: Copiar Caddyfile
+      copy:
+        src: files/CaddyFile
+        dest: /home/brian/app/Caddyfile
+        owner: brian
+        group: brian
+        mode: '0644'
+
+    - name: Levantar y Actualizar Contenedores
+      become_user: brian
+      environment:
+        DOPPLER_TOKEN: "{{ doppler_token }}"
+      shell: >
+        doppler run --
+        docker compose  pull && 
+        doppler run --
+        docker compose  up -d
+      args:
+        chdir: /home/brian/app
+  
+  handlers:
+    - name: Reiniciar SSH
+      service:
+        name: ssh
+        state: restarted  
