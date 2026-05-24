@@ -3,21 +3,19 @@
   hosts: servers
   become: true
   
-  tasks:     
+  tasks:
     - name: Actualizar paquetes
       apt:
         update_cache: yes
         upgrade: safe
-        
+
     - name: Unir VM a Tailscale
-      shell: >
-        tailscale up
-        --auth-key={{ tailscale_auth_key }} 
+      shell: tailscale up --auth-key="{{ tailscale_auth_key }}" --reset
 
     - name: Configurar Doppler
       shell: doppler configure set token {{ doppler_token }}
       become_user: brian
-        
+
     - name: Copiar Docker Compose
       copy:
         src: files/docker-compose.yml
@@ -25,6 +23,7 @@
         owner: brian
         group: brian
         mode: '0644'
+      register: compose_file
 
     - name: Copiar Caddyfile
       copy:
@@ -33,21 +32,21 @@
         owner: brian
         group: brian
         mode: '0644'
+      register: caddy_file
 
     - name: Levantar y Actualizar Contenedores
       become_user: brian
       environment:
         DOPPLER_TOKEN: "{{ doppler_token }}"
       shell: >
-        doppler run --
-        docker compose  pull && 
-        doppler run --
-        docker compose  up -d
+        doppler run -- docker compose pull && 
+        doppler run -- docker compose up -d --force-recreate
       args:
         chdir: /home/brian/app
+      when: compose_file.changed or caddy_file.changed
   
   handlers:
     - name: Reiniciar SSH
       service:
         name: ssh
-        state: restarted  
+        state: restarted
