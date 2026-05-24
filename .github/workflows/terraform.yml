@@ -3,7 +3,6 @@ name: Terraform
 on:
   push:
     branches: [main]
-
     paths:
       - 'Infraestructure/**'
 
@@ -19,7 +18,6 @@ jobs:
       TF_VAR_hcloud_token: ${{ secrets.hcloud_token }}
       TF_VAR_hcp_client_id: ${{ secrets.HCP_CLIENT_ID }}
       TF_VAR_hcp_client_secret: ${{ secrets.HCP_CLIENT_SECRET }}
-    
     
     steps:
       - name: Checkout repository
@@ -39,11 +37,11 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        
+
       - name: Cache Ansible Inventory
-          uses: actions/cache/save@v4
-          with:
-            path: Ansible/inventory.ini
-            key: ansible-inventory-cache-${{ github.sha }}  
+        uses: actions/cache/save@v4
+        with:
+          path: Ansible/inventory.ini
+          key: ansible-inventory-cache-${{ github.sha }}
 
   
