@@ -18,6 +18,7 @@ jobs:
       TF_VAR_hcloud_token: ${{ secrets.hcloud_token }}
       TF_VAR_hcp_client_id: ${{ secrets.HCP_CLIENT_ID }}
       TF_VAR_hcp_client_secret: ${{ secrets.HCP_CLIENT_SECRET }}
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
     
     steps:
       - name: Checkout repository

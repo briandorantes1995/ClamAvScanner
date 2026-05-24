@@ -13,7 +13,14 @@ terraform {
   local = {
       source = "hashicorp/local"
     }
+  }
 
+  cloud {
+    organization = "Blyndthor" # Cambia esto por el nombre exacto de tu Org en HCP
+
+    workspaces {
+      name = "ClamAvScanner-Infra" # El nombre que quieras para agrupar este estado
+    }
   }
 }
 
