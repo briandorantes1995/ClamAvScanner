@@ -38,7 +38,7 @@
 
     - name: Copiar Caddyfile
       copy:
-        src: files/CaddyFile
+        src: files/Caddyfile
         dest: /home/brian/app/Caddyfile
         owner: brian
         group: brian
