@@ -1,4 +1,4 @@
 scanner.fehura.net {
     encode zstd gzip
-    reverse_proxy portafolio:8080
+    reverse_proxy scanner:8080
 }
