@@ -1,4 +1,4 @@
-portafolio.blyndthor.com {
+scanner.fehura.net {
     encode zstd gzip
     reverse_proxy portafolio:8080
 }

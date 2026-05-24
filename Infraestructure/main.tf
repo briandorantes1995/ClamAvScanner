@@ -44,6 +44,7 @@ provider "hcloud" {
 provider "hcp" {
   client_id     = var.hcp_client_id
   client_secret = var.hcp_client_secret
+  project_id = "5f03cb76-4b5e-4223-9604-78097d1de365"
 }
 
 data "hcloud_firewall" "fw"{
