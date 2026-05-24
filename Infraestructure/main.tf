@@ -94,7 +94,7 @@ resource "hcloud_server" "node1" {
   EOF
 }
 
-# Obtain Server IP for ansible
+# Obtain Server IP
 output "server_ip" {
   value = hcloud_server.node1.ipv4_address
 }
