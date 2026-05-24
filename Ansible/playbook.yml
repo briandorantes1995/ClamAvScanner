@@ -50,9 +50,9 @@
         DOPPLER_TOKEN: "{{ doppler_token }}"
       shell: >
         doppler run --
-        docker compose  pull && 
+        docker-compose  pull && 
         doppler run --
-        docker compose  up -d
+        docker-compose  up -d
       args:
         chdir: /home/brian/app
   
