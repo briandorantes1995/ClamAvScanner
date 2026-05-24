@@ -18,9 +18,17 @@ terraform {
   }
 }
 
-# Set the variable value in *.tfvars file
-# or using the -var="hcloud_token=..." CLI option
 variable "hcloud_token" {
+  sensitive = true
+}
+
+variable "hcp_client_id" {
+  type      = string
+  sensitive = true
+}
+
+variable "hcp_client_secret" {
+  type      = string
   sensitive = true
 }
 
@@ -36,17 +44,6 @@ provider "hcloud" {
 provider "hcp" {
   client_id     = var.hcp_client_id
   client_secret = var.hcp_client_secret
-}
-
-# Recuerda declarar las variables correspondientes para que no te vuelva a pedir inputs:
-variable "hcp_client_id" {
-  type      = string
-  sensitive = true
-}
-
-variable "hcp_client_secret" {
-  type      = string
-  sensitive = true
 }
 
 data "hcloud_firewall" "fw"{

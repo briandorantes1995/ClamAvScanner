@@ -15,10 +15,12 @@ jobs:
       run:
         working-directory: Infraestructure
     env:
-      hcloud_token: ${{ secrets.hcloud_token }}
-      HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
-      HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}    
-
+      TF_IN_AUTOMATION: "true"
+      TF_VAR_hcloud_token: ${{ secrets.hcloud_token }}
+      TF_VAR_hcp_client_id: ${{ secrets.HCP_CLIENT_ID }}
+      TF_VAR_hcp_client_secret: ${{ secrets.HCP_CLIENT_SECRET }}
+    
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
