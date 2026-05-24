@@ -3,8 +3,6 @@ using ClamScanner.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,6 +34,7 @@ app.MapPost("/scan", async (IFormFile file, Clamd clamAv) =>
     return clean
         ? Results.Ok("Archivo limpio")
         : Results.BadRequest("Archivo infectado");
+    
 }).RequireRateLimiting("public").DisableAntiforgery();
 
 app.Run();
