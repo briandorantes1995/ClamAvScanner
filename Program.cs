@@ -28,7 +28,7 @@ app.UseRateLimiter();
 
 app.MapPost("/scan", async (IFormFile file, Clamd clamAv) =>
 {
-    if (file == null || file.Length == 0)
+    if (file.Length == 0)
     {
         return Results.BadRequest(new { error = "No se proporcionó ningún archivo o está vacío." });
     }
