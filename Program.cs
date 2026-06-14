@@ -8,6 +8,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<Clamd>();
 builder.Services.AddRateLimits();
+builder.Services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
+builder.Services.AddHostedService<RabbitMqConsumerService>();
 
 var app = builder.Build();
 
@@ -26,15 +28,38 @@ app.UseRateLimiter();
 
 app.MapPost("/scan", async (IFormFile file, Clamd clamAv) =>
 {
+    if (file == null || file.Length == 0)
+    {
+        return Results.BadRequest(new { error = "No se proporcionó ningún archivo o está vacío." });
+    }
+
     using var stream = file.OpenReadStream();
 
-    bool clean = await clamAv.IsCleanAsync(stream);
+    
+    ClamResult result = await clamAv.ScanAsync(stream);
 
-    return clean
-        ? Results.Ok("Archivo limpio")
-        : Results.BadRequest("Archivo infectado");
+    if (result.IsClean)
+    {
+        return Results.Ok(new
+        {
+            status = "clean",
+            message = "Archivo limpio",
+            fileName = file.FileName,
+            size = file.Length
+        });
+    }
+    
+    return Results.UnprocessableEntity(new
+    {
+        status = "infected",
+        message = "Archivo infectado",
+        fileName = file.FileName,
+        virusName = result.VirusName ?? "Amenaza Detectada", 
+        rawResponse = result.RawResponse
+    });
     
 }).RequireRateLimiting("public").DisableAntiforgery();
+
 
 app.Run();
 
