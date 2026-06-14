@@ -8,8 +8,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<Clamd>();
 builder.Services.AddRateLimits();
-builder.Services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
-builder.Services.AddHostedService<RabbitMqConsumerService>();
 
 var app = builder.Build();
 
